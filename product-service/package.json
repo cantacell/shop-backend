@@ -4,14 +4,15 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "jest --verbose true"
+    "test": "jest --verbose true",
+    "fill-db": "node fill-DB.js"
   },
   "engines": {
     "node": ">=14.15.0"
   },
   "dependencies": {
-    "@middy/core": "^3.4.0",
-    "@middy/http-json-body-parser": "^3.4.0"
+    "@middy/core": "^4.6.5",
+    "@middy/http-json-body-parser": "^4.6.5"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.0.0",
