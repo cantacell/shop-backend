@@ -14,7 +14,8 @@
     "@middy/http-json-body-parser": "^4.6.5",
     "csv-parser": "3.0.0",
     "@aws-sdk/client-s3": "3.431.0",
-    "@aws-sdk/s3-request-presigner": "3.431.0"
+    "@aws-sdk/s3-request-presigner": "3.431.0",
+    "@aws-sdk/client-sqs": "3.438.0"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.0.0",

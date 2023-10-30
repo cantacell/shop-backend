@@ -1,12 +1,15 @@
 import {formatJSONResponse} from '@libs/api-gateway';
 import {S3Client, CopyObjectCommand, CopyObjectCommandInput, GetObjectCommand, GetObjectCommandInput,
   DeleteObjectCommand} from '@aws-sdk/client-s3';
+import {SQSClient, SendMessageCommand, SendMessageCommandInput} from '@aws-sdk/client-sqs';
 import {S3Event} from "aws-lambda";
 import csv from 'csv-parser';
 
 const BUCKET = process.env.IMPORT_BUCKET_NAME;
 const uploadedPath = 'uploaded/';
 const parsedPath = 'parsed/'
+
+const SQS_QUEUE = process.env.CATALOG_QUEUE_NAME;
 
 export const importFileParser  = async (event: S3Event) => {
   for (const record of event.Records) {
@@ -32,8 +35,16 @@ export const importFileParser  = async (event: S3Event) => {
     const stream = await client.send(getCommand);
     const results = [];
     stream.Body.pipe(csv())
-        .on('data', (data) => {
-          console.log(data);
+        .on('data', async (data) => {
+          const sqsCommandInput: SendMessageCommandInput = {
+            MessageBody: JSON.stringify(data),
+            DelaySeconds: 0,
+            QueueUrl: SQS_QUEUE
+          }
+          const sqsCommand = new SendMessageCommand(sqsCommandInput);
+          const sqsClient = new SQSClient();
+          await sqsClient.send(sqsCommand);
+
           results.push(data);
         })
         .on('end', () => {
