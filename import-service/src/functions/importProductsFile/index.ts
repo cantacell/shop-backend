@@ -14,7 +14,12 @@ export default{
             }
           },
         },
-        cors: true
+        cors: true,
+        authorizer: {
+          arn: "arn:aws:lambda:us-east-1:${aws:accountId}:function:authorization-service-dev-basicAuthorizer",
+          type: "request",
+          resultTtlInSeconds: 0,
+        },
       },
     },
   ],
