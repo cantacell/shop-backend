@@ -22,7 +22,7 @@ export class ProductService {
                         Item: {
                             id: item.id,
                             title: item.title,
-                            price: item.price,
+                            price: +item.price,
                             description: item.description
                         },
                         TableName: process.env.PRODUCTS_TABLE,
@@ -32,7 +32,7 @@ export class ProductService {
                     Put: {
                         Item: {
                             product_id: item.id,
-                            count: item.count
+                            count: +item.count
                         },
                         TableName: process.env.STOCKS_TABLE,
                     },
